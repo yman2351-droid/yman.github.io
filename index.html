@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume & Portfolio Builder</title>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- DOCX Library (correct CDN + correct order) -->
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.3.2/build/index.min.js"></script>
+</head>
+
+<body data-theme="midnight">
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <button data-tab="resume" class="nav-btn active">Resume</button>
+        <button data-tab="coverLetter" class="nav-btn">Cover Letter</button>
+        <button data-tab="portfolio" class="nav-btn">Portfolio</button>
+        <button data-tab="website" class="nav-btn">Website</button>
+    </nav>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="avatar">W</div>
+
+            <h2 id="sidebarName">Your Name</h2>
+            <p id="sidebarEmail" class="sidebar-text"></p>
+            <p id="sidebarPhone" class="sidebar-text"></p>
+
+            <div class="stats-box">
+                <p><strong>Skills:</strong> <span id="statSkills">0</span></p>
+                <p><strong>Projects:</strong> <span id="statProjects">0</span></p>
+            </div>
+
+            <label class="sidebar-label">Theme</label>
+            <select id="themeSwitcher" class="sidebar-select">
+                <option value="midnight">Midnight (Default)</option>
+                <option value="dark">Dark</option>
+                <option value="default">Light</option>
+                <option value="solar">Solar</option>
+            </select>
+
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <button id="quickDownloadResume" class="quick-btn">Download Resume</button>
+                <button id="quickDownloadPortfolio" class="quick-btn">Download Portfolio JSON</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+
+            <!-- Resume Tab -->
+            <section id="resumeTab" class="tab active">
+                <h1>Resume Builder</h1>
+
+                <div class="card">
+                    <label>Name</label>
+                    <input id="name" type="text" />
+
+                    <label>Email</label>
+                    <input id="email" type="email" />
+
+                    <label>Phone</label>
+                    <input id="phone" type="text" />
+
+                    <label>Target Job Title</label>
+                    <select id="jobTitle"></select>
+                </div>
+
+                <div class="card">
+                    <h2>Skills</h2>
+                    <div id="suggestedSkillsList"></div>
+
+                    <input id="customSkillInput" type="text" placeholder="Add custom skill" />
+                    <button id="addCustomSkillBtn" class="btn">Add Skill</button>
+
+                    <h3>Your Skills</h3>
+                    <div id="selectedSkillsList"></div>
+                </div>
+
+                <div class="card">
+                    <h2>Education</h2>
+                    <input id="school" placeholder="School / University" />
+                    <input id="degree" placeholder="Degree" />
+                    <input id="graduationYear" placeholder="Graduation Year" />
+                </div>
+
+                <div class="card">
+                    <h2>Professional Summary</h2>
+                    <textarea id="summary"></textarea>
+                    <button id="enhanceSummaryBtn" class="btn">✨ Enhance Summary</button>
+                </div>
+
+                <div class="card">
+                    <h2>Experience</h2>
+                    <textarea id="experienceParagraph" placeholder="Experience paragraph..."></textarea>
+
+                    <h3>Bullets</h3>
+                    <textarea id="experienceBullets" placeholder="One bullet per line..."></textarea>
+                    <button id="enhanceBulletsBtn" class="btn">✨ Enhance Bullets</button>
+                </div>
+
+                <div class="card">
+                    <button id="updatePreviewBtn" class="btn">Update Preview</button>
+                    <button id="downloadResumeDOCXBtn" class="btn">Download Word Resume</button>
+                    <button id="downloadResumeJSONBtn" class="btn">Download JSON</button>
+                </div>
+
+                <div class="card">
+                    <h2>Preview</h2>
+                    <div id="preview" class="preview-box"></div>
+                </div>
+            </section>
+
+            <!-- Cover Letter Tab -->
+            <section id="coverLetterTab" class="tab">
+                <h1>Cover Letter</h1>
+
+                <div class="card">
+                    <input id="companyName" placeholder="Company Name" />
+                    <input id="positionApplying" placeholder="Position You're Applying For" />
+                    <input id="hiringManager" placeholder="Hiring Manager Name" />
+
+                    <button id="generateCoverLetterBtn" class="btn">Generate Cover Letter</button>
+                    <button id="downloadCoverLetterDOCXBtn" class="btn">Download Word Cover Letter</button>
+                </div>
+
+                <div class="card">
+                    <h2>Preview</h2>
+                    <div id="coverLetterPreview" class="preview-box"></div>
+                </div>
+            </section>
+
+            <!-- Portfolio Tab -->
+            <section id="portfolioTab" class="tab">
+                <h1>Portfolio Projects</h1>
+
+                <div class="card">
+                    <input id="projectTitle" placeholder="Project Title" />
+                    <textarea id="projectDesc" placeholder="Project Description"></textarea>
+                    <input id="projectTech" placeholder="Technologies (comma separated)" />
+                    <input id="projectLink" placeholder="Live Link" />
+                    <input id="projectGithub" placeholder="GitHub Link" />
+                    <input id="projectImage" placeholder="Image URL" />
+
+                    <button id="addProjectBtn" class="btn">Add Project</button>
+                </div>
+
+                <div class="card">
+                    <h2>Your Projects</h2>
+                    <div id="projectsList" class="projects-grid"></div>
+                </div>
+            </section>
+
+            <!-- Website View Tab -->
+            <section id="websiteTab" class="tab">
+                <h1>Your Website</h1>
+
+                <div class="card">
+                    <h2 id="viewName">Your Name</h2>
+                    <p><strong>Email:</strong> <span id="viewEmail"></span></p>
+                    <p><strong>Phone:</strong> <span id="viewPhone"></span></p>
+
+                    <h3>About Me</h3>
+                    <p id="viewAbout"></p>
+
+                    <h3>Skills</h3>
+                    <div id="viewSkills"></div>
+
+                    <h3>Projects</h3>
+                    <div id="projectsDisplay" class="projects-grid"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
